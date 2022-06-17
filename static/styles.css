@@ -1,0 +1,43 @@
+body {
+    
+    text-align: center;
+    background-image: url("back2.webp");
+    height: 100%;
+    opacity: 0.8;
+    
+    background-color: rgb(240, 247, 252);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+    background-color: #13abe7;
+}
+
+a {
+    color: rgba(235, 5, 93, 0.959);
+    position:relative; 
+    left:520px;
+    size: 15px;
+}
+
+a:hover {
+    color: #e6f79a;
+    background-color:rgba(100, 115, 128, 0.842);
+  }
+.card{
+    /*background-color: rgba(38, 196, 17, 0.25);*/
+    opacity: 0.75;
+    background-color:transparent;
+    border: none;
+}
+h3{
+    color: rgb(240, 14, 108); 
+}
+h2{
+    color: rgb(122, 23, 235); 
+    position:relative; 
+    left:520px;
+    size: 20px;
+}
