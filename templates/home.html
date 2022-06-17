@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Delay Prediction</title>
+
+
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+    <!-- css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+
+
+</head>
+
+<body bgcolor="pink">
+
+    <!-- As a heading -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><b><CENTER>FLIGHT DELAY PREDICTION</CENTER></b></a>
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+
+
+    <div class="container">
+
+
+
+        <form action="\predict" method="post">
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"> Date</h5>
+                            <!-- Departure -->
+                            <input type="date" class="form-control" name="Date" id="Date" required="required">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Airline</h5>
+                            <!-- Airline-->
+                            <!--<input type="datetime-local" name="Arrival_Time" id="Arrival_Time" required="required">-->
+                            <select name="Airline" class="form-control" id="Airline" required="required">
+                                <option value="UA">United Air Lines Inc.</option>
+                                <option value="AA">American Airlines Inc.</option>
+                                <option value="US">US Airways Inc.</option>
+                                <option value="F9">Frontier Airlines Inc.</option>
+                                <option value="B6">JetBlue Airways</option>
+                                <option value="OO">Skywest Airlines Inc.</option>
+                                <option value="AS">Alaska Airlines Inc</option>
+                                <option value="NK">Spirit Air Lines</option>
+                                <option value="WN">Southwest Airlines Co.</option>
+                                <option value="DL">Delta Air Lines Inc.</option>
+                                <option value="EV">Atlantic Southeast Airlines</option>
+                                <option value="HA">Hawaiian Airlines Inc.</option>
+                                <option value="MQ">American Eagle Airlines Inc.</option>
+                                <option value="VX">Virgin America</option>
+                                </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Source -->
+                            <h5 class="card-title">Origin Airport</h5>
+                            <select name="Origin" class="form-control" id="Origin" required="required">
+                                {% for airport in airports %}
+                                <option value="{{ airport['IATA_CODE'] }}">{{ airport['AIRPORT'] }}</option>
+                                {%endfor%}
+                                <!-- <option value="ABE">Lehigh Valley International Airport</option>
+                                <option value="ABI">Abilene Regional Airport</option>
+                                <option value="ABQ">Albuquerque International Sunport</option>
+                                <option value="ABR">Aberdeen Regional Airport</option>
+                                <option value="ABY">Southwest Georgia Regional Airport</option>
+                                <option value="ACK">Nantucket Memorial Airport</option>
+                                <option value="ACT">Waco Regional Airport</option>
+                                <option value="ACV">Arcata Airport</option>
+                                <option value="ACY">Atlantic City International Airport</option>
+                                <option value="ADK">Adak Airport</option>
+                                <option value="ADQ">Kodiak Airport</option>
+                                <option value="AEX">Alexandria International Airport</option>
+                                <option value="AGS">Augusta Regional AirportÂ (Bush Field)</option>
+                                <option value="AKN">King Salmon Airport</option>
+                                <option value="ALB">Albany International Airport</option>
+                                <option value="ALO">Waterloo Regional Airport</option>
+                                <option value="AMA">Rick Husband Amarillo International Airport</option>
+                                <option value="ANC">Ted Stevens Anchorage International Airport</option>
+                                <option value="APN">Alpena County Regional Airport</option>
+                                <option value="ASE">Aspen-Pitkin County Airport</option>
+                                <option value="ATL">Hartsfield-Jackson Atlanta International Airport</option>
+                                <option value="DEN">Denver International Airport</option>
+<option value="ATW">Appleton International Airport</option>
+<option value="AUS">Austin-Bergstrom International Airport</option>
+<option value="AVL">Asheville Regional Airport</option>
+<option value="AVP">Wilkes-Barre/Scranton International Airport</option>
+<option value="AZO">Kalamazoo/Battle Creek International Airport</option>
+<option value="BDL">Bradley International Airport</option>
+<option value="BET">Bethel Airport</option>
+<option value="BFL">Meadows Field</option>
+<option value="BGM">Greater Binghamton Airport</option>
+<option value="BGR">Bangor International Airport</option>
+<option value="BHM">Birmingham-Shuttlesworth International Airport</option>
+<option value="BIL">Billings Logan International Airport</option>
+<option value="BIS">Bismarck Municipal Airport</option>
+<option value="BJI">Bemidji Regional Airport</option>
+<option value="BLI">Bellingham International Airport</option>
+<option value="BMI">Central Illinois Regional Airport at Bloomington-Normal</option>
+<option value="BNA">Nashville International Airport</option>
+<option value="BOI">Boise AirportÂ (Boise Air Terminal)</option>
+<option value="BOS">Gen. Edward Lawrence Logan International Airport</option>
+<option value="BPT">Jack Brooks Regional AirportÂ (Southeast Texas Regional)</option>
+<option value="BQK">Brunswick Golden Isles Airport</option>
+<option value="BQN">Rafael HernÃ¡ndez Airport</option>
+<option value="BRD">Brainerd Lakes Regional Airport</option>
+<option value="BRO">Brownsville/South Padre Island International Airport</option>
+<option value="BRW">Wiley Post-Will Rogers Memorial Airport</option>
+<option value="BTM">Bert Mooney Airport</option>
+<option value="BTR">Baton Rouge Metropolitan Airport</option>
+<option value="BTV">Burlington International Airport</option>
+<option value="BUF">Buffalo Niagara International Airport</option>
+<option value="BUR">Bob Hope AirportÂ (Hollywood Burbank Airport)</option>
+<option value="BWI">Baltimore-Washington International Airport</option>
+<option value="BZN">Bozeman Yellowstone International AirportÂ (Gallatin Field Airport)</option>
+<option value="CAE">Columbia Metropolitan Airport</option>
+<option value="CAK">Akron-Canton Regional Airport</option>
+<option value="CDC">Cedar City Regional Airport</option>
+<option value="CDV">Merle K. (Mudhole) Smith Airport</option>
+<option value="CEC">Del Norte County AirportÂ (Jack McNamara Field)</option>
+<option value="CHA">Chattanooga Metropolitan AirportÂ (Lovell Field)</option> -->
+
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Destination Airport</h5>
+                            <!-- Destination -->
+                            <select name="Destination" class="form-control" id="Destination Airport" required="required">
+                                {% for airport in airports %}
+                                <option value="{{ airport['IATA_CODE'] }}">{{ airport['AIRPORT'] }}</option>
+                                {%endfor%}
+                                <!-- <option value="ABE">Lehigh Valley International Airport</option>
+                                <option value="ABI">Abilene Regional Airport</option>
+                                <option value="ABQ">Albuquerque International Sunport</option>
+                                <option value="ABR">Aberdeen Regional Airport</option>
+                                <option value="ABY">Southwest Georgia Regional Airport</option>
+                                <option value="ACK">Nantucket Memorial Airport</option>
+                                <option value="ACT">Waco Regional Airport</option>
+                                <option value="ACV">Arcata Airport</option>
+                                <option value="ACY">Atlantic City International Airport</option>
+                                <option value="ADK">Adak Airport</option>
+                                <option value="ADQ">Kodiak Airport</option>
+                                <option value="AEX">Alexandria International Airport</option>
+                                <option value="AGS">Augusta Regional AirportÂ (Bush Field)</option>
+                                <option value="AKN">King Salmon Airport</option>
+                                <option value="ALB">Albany International Airport</option>
+                                <option value="ALO">Waterloo Regional Airport</option>
+                                <option value="AMA">Rick Husband Amarillo International Airport</option>
+                                <option value="ANC">Ted Stevens Anchorage International Airport</option>
+                                <option value="APN">Alpena County Regional Airport</option>
+                                <option value="ASE">Aspen-Pitkin County Airport</option>
+                                <option value="ATL">Hartsfield-Jackson Atlanta International Airport</option>
+<option value="ATW">Appleton International Airport</option>
+<option value="AUS">Austin-Bergstrom International Airport</option>
+<option value="AVL">Asheville Regional Airport</option>
+<option value="AVP">Wilkes-Barre/Scranton International Airport</option>
+<option value="AZO">Kalamazoo/Battle Creek International Airport</option>
+<option value="BDL">Bradley International Airport</option>
+<option value="BET">Bethel Airport</option>
+<option value="BFL">Meadows Field</option>
+<option value="BGM">Greater Binghamton Airport</option>
+<option value="BGR">Bangor International Airport</option>
+<option value="BHM">Birmingham-Shuttlesworth International Airport</option>
+<option value="BIL">Billings Logan International Airport</option>
+<option value="BIS">Bismarck Municipal Airport</option>
+<option value="BJI">Bemidji Regional Airport</option>
+<option value="BLI">Bellingham International Airport</option>
+<option value="BMI">Central Illinois Regional Airport at Bloomington-Normal</option>
+<option value="BNA">Nashville International Airport</option>
+<option value="BOI">Boise AirportÂ (Boise Air Terminal)</option>
+<option value="BOS">Gen. Edward Lawrence Logan International Airport</option>
+<option value="BPT">Jack Brooks Regional AirportÂ (Southeast Texas Regional)</option>
+<option value="BQK">Brunswick Golden Isles Airport</option>
+<option value="BQN">Rafael HernÃ¡ndez Airport</option>
+<option value="BRD">Brainerd Lakes Regional Airport</option>
+<option value="BRO">Brownsville/South Padre Island International Airport</option>
+<option value="BRW">Wiley Post-Will Rogers Memorial Airport</option>
+<option value="BTM">Bert Mooney Airport</option>
+<option value="BTR">Baton Rouge Metropolitan Airport</option>
+<option value="BTV">Burlington International Airport</option>
+<option value="BUF">Buffalo Niagara International Airport</option>
+<option value="BUR">Bob Hope AirportÂ (Hollywood Burbank Airport)</option>
+<option value="BWI">Baltimore-Washington International Airport</option>
+<option value="BZN">Bozeman Yellowstone International AirportÂ (Gallatin Field Airport)</option>
+<option value="CAE">Columbia Metropolitan Airport</option>
+<option value="CAK">Akron-Canton Regional Airport</option>
+<option value="CDC">Cedar City Regional Airport</option>
+<option value="CDV">Merle K. (Mudhole) Smith Airport</option>
+<option value="CEC">Del Norte County AirportÂ (Jack McNamara Field)</option>
+<option value="CHA">Chattanooga Metropolitan AirportÂ (Lovell Field)</option>
+<option value="SEA">Seattle-Tacoma International Airport</option> -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Scheduled Arrival(in minutes)</h5>
+                            <!-- Scheduled Arrival -->
+                            <input type="number" class="form-control" name="Scheduled_Arrival" id="Scheduled_Arrival" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Air System Delay(in minutes)</h5>
+                            <!-- Air System Delay -->
+                            <input type="number"class="form-control" name="Air_System_Delay" id="Air_System_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Weather Delay(in minutes)</h5>
+                            <!-- Weather Delay -->
+                            <input  type="number" class="form-control" name="Weather_Delay" id="Weather_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Security Delay(in minutes)</h5>
+                            <!-- Security Delay -->
+                            <input type="number" class="form-control" name="Security_Delay" id="Security_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Late Aircraft Delay(in minutes)</h5>
+                            <!-- Late Aircraft Delay -->
+                            <input type="number" class="form-control" name="Late_Aircraft_Delay" id="Late_Aircraft_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Airline Delay(in minutes)</h5>
+                            <!-- Airline Delay -->
+                            <input type="number" class="form-control" name="Airline_Delay" id="Airline_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Departure Delay(in minutes)</h5>
+                            <!-- Departure Delay -->
+                            <input type="number" class="form-control" name="Departure_Delay" id="Departure_Delay" required="required">
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+
+            <!-- Submit -->
+            <div class="d-flex justify-content-center">
+            <input type="submit" class="form-control" value="Submit" class="btn btn-primary" style="width: 200px;">
+            </div>
+        </form>
+
+        <br>
+        <br>
+       <!--<h3>{{ prediction_text }}</h3>--> 
+
+        <br>
+        <br>
+        
+
+
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+
+   <!-- Footer -->
+       <div class='footer'>
+           <div class="contact">
+               
+           </div>
+           <p class='footer-description'></p>
+       </div>
+
+
+</body>
+
+</html>
